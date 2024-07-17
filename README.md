@@ -47,14 +47,15 @@ jobs:
         with:
           path: MySuperModule  # Custom path for the checkout
 
-      - name: Download PowerShell Manifest
-        uses: actions/download-artifact@v2
+      - name: Create PowerShell Manifest
+        uses: your-username/your-repo@v1  # Replace with your repository details for the createpowershellmanifest action
         with:
-          name: your-module-manifest
-          path: ${{ github.workspace }}/artifacts/your-module
+          ModuleName: 'your-module'
+          Source: 'MySuperModule'  # Use the custom path here
+          Debug: 'true'
 
-      - name: Build PowerShell Module
-        uses: your-username/your-repo@v1  # Replace with your repository details
+      - name: Create PowerShell Module
+        uses: your-username/your-repo@v1  # Replace with your repository details for the createpowershellmodule action
         with:
           ModuleName: 'your-module'
           Source: 'MySuperModule'  # Use the custom path here
