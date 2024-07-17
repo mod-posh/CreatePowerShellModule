@@ -7,7 +7,7 @@ param (
 )
 try
 {
-    Write-Host "::group::Starting the BuildModule task..."
+    Write-Host "::group::Starting the Create PowerShell Module task..."
     Write-Host "::group::Setting up variables"
 
     if ([string]::IsNullOrEmpty($Source))
@@ -28,17 +28,15 @@ try
         $outputPath = "$($env:GITHUB_WORKSPACE)\$($Output)"
     }
 
-    $artifactsPath = "$($env:GITHUB_WORKSPACE)\artifacts"
     $modulePath = "$($outputPath)\$($ModuleName).psm1"
 
     if ($Debug)
     {
-        Write-Host "::debug::ModuleName    : $($ModuleName)"
-        Write-Host "::debug::SourcePath    : $($sourcePath)"
-        Write-Host "::debug::OutputPath    : $($outputPath)"
-        Write-Host "::debug::ModulePath    : $($modulePath)"
-        Write-Host "::debug::Imports       : $($imports)"
-        Write-Host "::debug::artifactsPath : $($artifactsPath)"
+        Write-Host "::debug::ModuleName : $($ModuleName)"
+        Write-Host "::debug::SourcePath : $($sourcePath)"
+        Write-Host "::debug::OutputPath : $($outputPath)"
+        Write-Host "::debug::ModulePath : $($modulePath)"
+        Write-Host "::debug::Imports    : $($imports)"
     }
 
     $stringbuilder = [System.Text.StringBuilder]::new()
@@ -56,10 +54,6 @@ try
     if (-not (Test-Path -Path $outputPath)) {
         New-Item -ItemType Directory -Path $outputPath | Out-Null
     }
-
-    Write-Host "Copying Module manifest"
-    Copy-Item -Path "$($artifactsPath)\$($ModuleName)\*" -Destination $outputPath -Recurse
-    Write-Host "::endgroup::"
 
     Write-Host "::group::Processing import folders..."
     foreach ($importFolder in $importFolders)
