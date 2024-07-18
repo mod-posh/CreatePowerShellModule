@@ -30,15 +30,20 @@ try
         $outputPath = "$($env:GITHUB_WORKSPACE)\$($Output)"
     }
 
-    $modulePath = "$($outputPath)\$($ModuleName).psm1"
+    $Module = Get-ChildItem -Path $SourcePath -Filter "$($ModuleName).psd1" -Recurse
+    $ModuleRoot = $Module.Directory.FullName
+    $Destination = "$($outputPath)\$($ModuleName)"
+    $modulePath = "$($Destination)\$($ModuleName).psm1"
 
     if ($Debug)
     {
-        Write-Host "::debug::ModuleName : $($ModuleName)"
-        Write-Host "::debug::SourcePath : $($sourcePath)"
-        Write-Host "::debug::OutputPath : $($outputPath)"
-        Write-Host "::debug::ModulePath : $($modulePath)"
-        Write-Host "::debug::Imports    : $($imports)"
+        Write-Host "ModuleName   : $($ModuleName)"
+        Write-Host "SourcePath   : $($sourcePath)"
+        Write-Host "OutputPath   : $($outputPath)"
+        Write-Host "Destination  : $($Destination)"
+        Write-Host "ManifestPath : $($ManifestPath)"
+        Write-Host "ModuleRoot   : $($ModuleRoot)"
+        Write-Host "Imports      : $($imports)"
     }
 
     $stringbuilder = [System.Text.StringBuilder]::new()
@@ -50,7 +55,7 @@ try
 
     if ($Debug)
     {
-        Write-Host "::debug::Testing Output"
+        Write-Host "Testing Output"
     }
 
     if (-not (Test-Path -Path $outputPath)) {
@@ -60,20 +65,20 @@ try
     Write-Host "::group::Processing import folders..."
     foreach ($importFolder in $importFolders)
     {
-        Write-Host "Importing from [$($sourcePath)\$($importFolder)]"
+        Write-Host "Importing from [$($ModuleRoot)\$($importFolder)]"
         if ($Debug)
         {
-            Write-Host "::debug::Testing ImportFolder"
+            Write-Host "Testing ImportFolder"
         }
-        if (Test-Path "$sourcePath\$importFolder")
+        if (Test-Path "$ModuleRoot\$importFolder")
         {
-            $fileList = Get-ChildItem "$($sourcePath)\$($importFolder)\*.ps1" -Exclude "*.Tests.ps1"
+            $fileList = Get-ChildItem "$($ModuleRoot)\$($importFolder)\*.ps1" -Exclude "*.Tests.ps1"
             foreach ($file in $fileList)
             {
                 Write-Host "  Importing [.$($file.BaseName)]"
                 if ($Debug)
                 {
-                    Write-Host "::debug::Reading file: $file.FullName"
+                    Write-Host "Reading file: $file.FullName"
                 }
                 $stringbuilder.AppendLine("# .$($file.BaseName)") | Out-Null
                 $stringbuilder.AppendLine([System.IO.File]::ReadAllText($file.FullName)) | Out-Null
@@ -81,7 +86,7 @@ try
         }
         else
         {
-            Write-Host "##[warning]Folder $importFolder not found at $sourcePath"
+            Write-Host "##[warning]Folder $importFolder not found at $ModuleRoot"
         }
     }
     Write-Host "::endgroup::"
