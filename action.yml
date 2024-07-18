@@ -36,10 +36,4 @@ runs:
   steps:
     - name: Create PowerShell Module
       shell: pwsh
-      run: ./createpowershellmodule.ps1
-      with:
-        ModuleName: ${{ inputs.ModuleName }}
-        Source: ${{ inputs.Source }}
-        Output: ${{ inputs.Output }}
-        Imports: ${{ inputs.Imports }}
-        Debug: ${{ inputs.Debug }}
+      run: ./createpowershellmodule.ps1 -ModuleName '${{ inputs.ModuleName }}' -Source '${{ inputs.Source }}' -Output '${{ inputs.Output }}' -Imports '${{ inputs.Imports }}' -Debug '${{ inputs.Debug }}'
