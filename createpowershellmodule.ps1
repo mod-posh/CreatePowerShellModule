@@ -93,6 +93,7 @@ try
 
     Write-Host "::group::Creating module [$($modulePath)]"
     Set-Content -Path $modulePath -Value $stringbuilder.ToString()
+    $stringbuilder.ToString()
     Write-Host "BuildModule task completed successfully."
     Write-Host "::endgroup::"
     Write-Host "::endgroup::"
