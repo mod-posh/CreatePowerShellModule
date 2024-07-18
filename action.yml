@@ -36,4 +36,5 @@ runs:
   steps:
     - name: Create PowerShell Module
       shell: pwsh
-      run: ./createpowershellmodule.ps1 -ModuleName '${{ inputs.ModuleName }}' -Source '${{ inputs.Source }}' -Output '${{ inputs.Output }}' -Imports '${{ inputs.Imports }}' -Debug '${{ inputs.Debug }}'
+      run: |
+        & $env:GITHUB_ACTION_PATH\\createpowershellmodule.ps1 -ModuleName '${{ inputs.ModuleName }}' -Source '${{ inputs.Source }}' -Output '${{ inputs.Output }}' -Imports '${{ inputs.Imports }}' -Debug '${{ inputs.Debug }}'
