@@ -4,6 +4,17 @@ All changes to this project should be reflected in this document.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[0.0.2.0]](https://github.com/mod-posh/CreatePowerShellModule/releases/tag/v0.0.2.0) - 2026-02-19
+
+### BUGFIXES
+
+**issue-1** Recursing importFolder returned no files
+> Added Where-Object to filter out any potential Pester Test files
+
+**issue-2** Set-Content not creating file
+> Force the file creation using New-Item
+> Add utf8 encoding on file write
+
 ## [[0.0.1.0]](https://github.com/mod-posh/CreatePowerShellModule/releases/tag/v0.0.1.0) - 2024-07-17
 
 ### Summary of the Create PowerShell Module Script
