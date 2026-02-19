@@ -10,8 +10,6 @@ try {
     Write-Host "::group::Starting the Create PowerShell Module task..."
     Write-Host "::group::Setting up variables"
 
-    $Debug = [System.Convert]::ToBoolean($Debug)
-
     $sourcePath = if ([string]::IsNullOrEmpty($Source)) { $env:GITHUB_WORKSPACE } else { Join-Path $env:GITHUB_WORKSPACE $Source }
     $outputPath = if ([string]::IsNullOrEmpty($Output)) { Join-Path $env:GITHUB_WORKSPACE "output" } else { Join-Path $env:GITHUB_WORKSPACE $Output }
 
