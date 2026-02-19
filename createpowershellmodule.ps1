@@ -51,7 +51,7 @@ try {
             Write-Host "Testing ImportFolder"
         }
         if (Test-Path -Path (Join-Path $ModuleRoot $importFolder)) {
-            $fileList = Get-ChildItem -Path (Join-Path $ModuleRoot $importFolder) -Filter "*.ps1" -Exclude "*.Tests.ps1"
+            $fileList = Get-ChildItem -Path (Join-Path $ModuleRoot $importFolder) -Filter "*.ps1" | Where-Object { $_.Name -notlike "*.Tests.ps1" }
             foreach ($file in $fileList) {
                 Write-Host "  Importing [.$($file.BaseName)]"
                 if ($Debug) {
@@ -67,7 +67,8 @@ try {
     Write-Host "::endgroup::"
 
     Write-Host "::group::Creating module [$modulePath]"
-    Set-Content -Path $modulePath -Value $stringbuilder.ToString()
+    New-Item -ItemType Directory -Path (Split-Path $modulePath -Parent) -Force | Out-Null
+    $stringbuilder.ToString() | Set-Content -Path $modulePath -Encoding utf8
     Write-Host "BuildModule task completed successfully."
     Write-Host "::endgroup::"
     Write-Host "::endgroup::"
