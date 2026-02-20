@@ -4,6 +4,16 @@ All changes to this project should be reflected in this document.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [[0.0.2.1]](https://github.com/mod-posh/CreatePowerShellModule/releases/tag/v0.0.2.1) - 2026-02-19
+
+### BUGFIXES
+
+**issue-3** ToBoolean() Error
+> Github Actions can only accept strings
+
+**issue-4** Module discovery in output folder
+> Get-ChildItem -Recurse is finding the .psd1 file in both the source directory AND the output directory (from a previous action), and it's picking the wrong one from the output directory instead of the source
+
 ## [[0.0.2.0]](https://github.com/mod-posh/CreatePowerShellModule/releases/tag/v0.0.2.0) - 2026-02-19
 
 ### BUGFIXES
